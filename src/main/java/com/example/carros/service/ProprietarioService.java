@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-import com.example.carros.domain.proprietario.Proprietario;
-import com.example.carros.domain.proprietario.ProprietarioRepository;
-import com.example.carros.domain.proprietario.RequestProprietario;
+import com.example.carros.domain.Entity.Proprietario;
+import com.example.carros.domain.Repository.ProprietarioRepository;
+import com.example.carros.domain.Request.RequestProprietario;
 
 @Service
 public class ProprietarioService {
@@ -17,6 +17,10 @@ public class ProprietarioService {
 
     public List<Proprietario> findAll(){
         return repository.findAll();
+    }
+
+    public Optional<Proprietario> findById(Integer id){
+        return repository.findById(id);
     }
 
     public Proprietario updateProprietario(Integer id, RequestProprietario dados){

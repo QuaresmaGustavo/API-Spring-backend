@@ -1,6 +1,6 @@
-package com.example.carros.domain.veiculos;
+package com.example.carros.domain.Entity;
 
-import com.example.carros.domain.proprietario.Proprietario;
+import com.example.carros.domain.Request.RequestVeiculo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ public class Veiculo {
     @JoinColumn(name = "id_proprietario")
     private Proprietario proprietario;
 
-    private String nome, montadora, placa, tipo, imagem;
+    private String nome, montadora, placa, cor, imagem;
 
     private Integer ano;
 
@@ -35,7 +35,7 @@ public class Veiculo {
         this.ano = dataVeiculo.ano();
         this.montadora = dataVeiculo.montadora();
         this.placa = dataVeiculo.placa();
-        this.tipo = dataVeiculo.tipo();
+        this.cor = dataVeiculo.cor();
         this.imagem = dataVeiculo.imagem();
     }
 
@@ -87,12 +87,12 @@ public class Veiculo {
         this.placa = placa;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getCor() {
+        return cor;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 
     public String getImagem() {

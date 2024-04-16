@@ -1,4 +1,4 @@
-package com.example.carros.domain.proprietario;
+package com.example.carros.domain.Request;
 
 import java.time.LocalDateTime;
 

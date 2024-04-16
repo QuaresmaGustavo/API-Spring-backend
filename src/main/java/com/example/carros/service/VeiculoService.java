@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-import com.example.carros.domain.veiculos.RequestVeiculo;
-import com.example.carros.domain.veiculos.Veiculo;
-import com.example.carros.domain.veiculos.VeiculoRepository;
+import com.example.carros.domain.Entity.Veiculo;
+import com.example.carros.domain.Repository.VeiculoRepository;
+import com.example.carros.domain.Request.RequestVeiculo;
 
 @Service
 public class VeiculoService {
@@ -39,7 +39,7 @@ public class VeiculoService {
             newVeiculo.setAno(dados.ano());
             newVeiculo.setMontadora(dados.montadora());
             newVeiculo.setPlaca(dados.placa());
-            newVeiculo.setTipo(dados.tipo());
+            newVeiculo.setCor(dados.cor());
             newVeiculo.setImagem(dados.imagem());
 
             return repository.save(newVeiculo);

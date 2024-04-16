@@ -2,12 +2,13 @@ package com.example.carros.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.carros.domain.proprietario.Proprietario;
-import com.example.carros.domain.proprietario.ProprietarioRepository;
-import com.example.carros.domain.proprietario.RequestProprietario;
+import com.example.carros.domain.Entity.Proprietario;
+import com.example.carros.domain.Repository.ProprietarioRepository;
+import com.example.carros.domain.Request.RequestProprietario;
 import com.example.carros.service.ProprietarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/proprietario")
+@CrossOrigin(origins = "http://localhost:8080")
 public class ProprietarioController {
     @Autowired
     private ProprietarioRepository propRepository;
@@ -31,14 +32,18 @@ public class ProprietarioController {
     @Autowired
     private ProprietarioService propService;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/all")
     public ResponseEntity<List<Proprietario>> findAll() {
         List<Proprietario> listaProps = propService.findAll();
         return ResponseEntity.ok().body(listaProps);
     }
+
+    @GetMapping(path="/{id}")
+    public ResponseEntity<Optional<Proprietario>> findById(@PathVariable Integer id) {
+        Optional<Proprietario> proprietario = propService.findById(id);
+        return ResponseEntity.ok(proprietario);
+    }
     
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(path = "/cadastrar")
     public ResponseEntity<Proprietario> cadastrar(@RequestBody @Validated RequestProprietario dataProprietario) {
         Proprietario novoProprietario = new Proprietario(dataProprietario);
@@ -46,7 +51,6 @@ public class ProprietarioController {
         return ResponseEntity.ok().body(novoProprietario);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping(path = "/{id}")
     public ResponseEntity<Proprietario> atualizarProprietario(@PathVariable Integer id, @RequestBody 
                                                               @Validated RequestProprietario dados){
@@ -54,7 +58,6 @@ public class ProprietarioController {
         return ResponseEntity.ok().body(atualizarProprietario);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Proprietario> deletarProprietario(@PathVariable Integer id){
         propRepository.deleteById(id);

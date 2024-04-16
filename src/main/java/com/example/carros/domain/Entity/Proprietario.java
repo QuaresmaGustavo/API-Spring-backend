@@ -1,10 +1,10 @@
-package com.example.carros.domain.proprietario;
+package com.example.carros.domain.Entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.carros.domain.veiculos.Veiculo;
+import com.example.carros.domain.Request.RequestProprietario;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
