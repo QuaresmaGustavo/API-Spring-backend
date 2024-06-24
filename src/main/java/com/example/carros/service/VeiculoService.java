@@ -5,15 +5,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
+import com.example.carros.domain.Entity.Funcionario;
 import com.example.carros.domain.Entity.Veiculo;
-import com.example.carros.domain.Repository.VeiculoRepository;
-import com.example.carros.domain.Request.RequestVeiculo;
+import com.example.carros.domain.Repository.FuncionarioRepository;
+import com.example.carros.domain.Repository.IVeiculoRepository;
+import com.example.carros.domain.Request.VeiculoRequestDTO;
 
 @Service
 public class VeiculoService {
-    @Autowired VeiculoRepository repository;
+    @Autowired IVeiculoRepository repository;
+
+    @Autowired
+    private FuncionarioRepository fRepository;
     
     public List<Veiculo> findAll(){
         return repository.findAll();
@@ -24,27 +28,22 @@ public class VeiculoService {
         return idVeiculo;
     }
 
-    public Veiculo insertVeiculo(Veiculo newVeiculo){
-        return repository.save(newVeiculo);
+    public Veiculo insertVeiculo(VeiculoRequestDTO dadosVeiculo, Integer id){
+        Funcionario idProprietario = fRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Funcionario não encontrado"));
+        Veiculo novoVeiculo = new Veiculo(dadosVeiculo, idProprietario);
+        return repository.save(novoVeiculo);
     }
 
-    public Veiculo updateVeiculo(Integer id, RequestVeiculo dados){
-        Optional<Veiculo> idVeiculo = repository.findById(id);
+    public Veiculo atualizarVeiculo(Integer id, VeiculoRequestDTO dados){
+        Veiculo veiculo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Funcionario não encontrado"));
 
-        if (idVeiculo.isPresent()) {
-            
-            Veiculo newVeiculo = idVeiculo.get();
+            veiculo.setNome(dados.nome());
+            veiculo.setAno(dados.ano());
+            veiculo.setMontadora(dados.montadora());
+            veiculo.setPlaca(dados.placa());
+            veiculo.setCor(dados.cor());
+            veiculo.setImagem(dados.imagem());
 
-            newVeiculo.setMontadora(dados.nome());
-            newVeiculo.setAno(dados.ano());
-            newVeiculo.setMontadora(dados.montadora());
-            newVeiculo.setPlaca(dados.placa());
-            newVeiculo.setCor(dados.cor());
-            newVeiculo.setImagem(dados.imagem());
-
-            return repository.save(newVeiculo);
-        }else{
-            throw new ResourceAccessException("Veiculo não encontrado");
-        }
+            return repository.save(veiculo);
     }
 }

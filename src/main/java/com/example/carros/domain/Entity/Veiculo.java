@@ -1,6 +1,6 @@
 package com.example.carros.domain.Entity;
 
-import com.example.carros.domain.Request.RequestVeiculo;
+import com.example.carros.domain.Request.VeiculoRequestDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -10,9 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "veiculo")
+@Getter
+@Setter
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +24,8 @@ public class Veiculo {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_proprietario")
-    private Proprietario proprietario;
+    @JoinColumn(name = "id_funcionario")
+    private Funcionario funcionario;
 
     private String nome, montadora, placa, cor, imagem;
 
@@ -29,8 +33,8 @@ public class Veiculo {
 
     public Veiculo(){}
 
-    public Veiculo(RequestVeiculo dataVeiculo, Proprietario id){
-        this.proprietario = id;
+    public Veiculo(VeiculoRequestDTO dataVeiculo, Funcionario id){
+        this.funcionario = id;
         this.nome = dataVeiculo.nome();
         this.ano = dataVeiculo.ano();
         this.montadora = dataVeiculo.montadora();
@@ -38,69 +42,4 @@ public class Veiculo {
         this.cor = dataVeiculo.cor();
         this.imagem = dataVeiculo.imagem();
     }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Proprietario getProprietario() {
-        return proprietario;
-    }
-
-    public void setProprietario(Proprietario proprietario) {
-        this.proprietario = proprietario;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
-        this.ano = ano;
-    }
-
-    public String getMontadora() {
-        return montadora;
-    }
-
-    public void setMontadora(String montadora) {
-        this.montadora = montadora;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-    
 }

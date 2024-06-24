@@ -2,11 +2,9 @@ package com.example.carros.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.carros.domain.Entity.Proprietario;
 import com.example.carros.domain.Entity.Veiculo;
-import com.example.carros.domain.Repository.ProprietarioRepository;
-import com.example.carros.domain.Repository.VeiculoRepository;
-import com.example.carros.domain.Request.RequestVeiculo;
+import com.example.carros.domain.Repository.IVeiculoRepository;
+import com.example.carros.domain.Request.VeiculoRequestDTO;
 import com.example.carros.service.VeiculoService;
 
 import java.util.List;
@@ -30,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class VeiculoController {
 
     @Autowired
-    private VeiculoRepository veiculoRepository;
-
-    @Autowired
-    private ProprietarioRepository proprietarioRepository;
+    private IVeiculoRepository veiculoRepository;
 
     @Autowired
     private VeiculoService veiculoService;
@@ -51,18 +46,14 @@ public class VeiculoController {
     }
     
     @PostMapping(path = "/{id}")
-    public ResponseEntity<Veiculo> cadastrar(@RequestBody @Validated RequestVeiculo dataVeiculo, @PathVariable("id") Integer id){
-        Proprietario idProprietario = proprietarioRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Proprietario não encontrado"));
-        Veiculo novoVeiculo = new Veiculo(dataVeiculo, idProprietario);
-        Veiculo salvarNovoVeiculo = veiculoService.insertVeiculo(novoVeiculo);
-
-        return ResponseEntity.ok().body(salvarNovoVeiculo);
+    public ResponseEntity<Veiculo> cadastrar(@RequestBody @Validated VeiculoRequestDTO dataVeiculo, @PathVariable("id") Integer id){
+        return ResponseEntity.ok().body(veiculoService.insertVeiculo(dataVeiculo, id));
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable Integer id, @RequestBody @Validated RequestVeiculo dados){
-        Veiculo atualizarVeiculo = veiculoService.updateVeiculo(id, dados);
-        return ResponseEntity.ok().body(atualizarVeiculo);
+    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable Integer id, @RequestBody @Validated VeiculoRequestDTO dados){
+        Veiculo veiculo = veiculoService.atualizarVeiculo(id, dados);
+        return ResponseEntity.ok().body(veiculo);
     }
 
     @DeleteMapping(path = "/{id}")

@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.carros.domain.Entity.Veiculo;
 
-public interface VeiculoRepository extends JpaRepository<Veiculo, Integer>{}
+public interface IVeiculoRepository extends JpaRepository<Veiculo, Integer>{}
